@@ -2,8 +2,15 @@
 
 namespace Models.Weapons
 {
-    public abstract class Weapon
+    public class Weapon : GameEntity
     {
-        public abstract void Shoot(Vector3 dir);
+        public Weapon(int id)
+        {
+            Id = id;
+        }
+
+        public int Id { get; }
+        public float ShootRadius { get; private set; }
+        public float ShootDelay { get; private set; }
     }
 }
