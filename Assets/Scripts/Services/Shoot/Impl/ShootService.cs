@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Entity;
 using Services.PlayerProvider;
 using Services.Spawn;
 using Services.Target;
@@ -39,7 +40,7 @@ namespace Services.Shoot.Impl
             
             var playerPos = _playerProvider.Player.Position;
             var dir = target.Position - playerPos;
-            var weaponId = _weaponService.CurrentWeapon.Id;
+            var weaponId = _weaponService.CurrentWeaponEntity.Id;
             var weaponSettings = _weaponSettingsBase.GetWeaponById(weaponId);
 
             for (int i = 0; i < weaponSettings.BulletsNumber; i++)

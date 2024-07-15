@@ -1,5 +1,6 @@
 using System;
 using Models;
+using Models.Entity;
 using Services.PlayerProvider;
 using Services.UnitRepository;
 using Services.Weapon;
@@ -35,8 +36,8 @@ namespace Services.Target.Impl
             
             foreach (var entity in _unitRepository.Entities)
             {
-                var weaponRadius2 = _weaponService.CurrentWeapon.ShootRadius * 
-                                    _weaponService.CurrentWeapon.ShootRadius;
+                var weaponRadius2 = _weaponService.CurrentWeaponEntity.ShootRadius * 
+                                    _weaponService.CurrentWeaponEntity.ShootRadius;
                 
                 var dist2 = (entity.Position - playerPosition).sqrMagnitude;
                 

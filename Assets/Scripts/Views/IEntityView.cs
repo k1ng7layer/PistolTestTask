@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Entity;
 using UnityEngine;
 
 namespace Views

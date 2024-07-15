@@ -1,6 +1,6 @@
 using System;
 
-namespace Models
+namespace Models.Entity
 {
     [Flags]
     public enum UnitGroup

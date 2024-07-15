@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Models
+namespace Models.Entity
 {
     public class Bullet : GameEntity
     {

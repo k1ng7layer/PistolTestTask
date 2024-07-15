@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-
-namespace Models.Weapons
+﻿namespace Models.Entity
 {
-    public class Weapon : GameEntity
+    public class WeaponEntity : GameEntity
     {
-        public Weapon(int id)
+        public WeaponEntity(int id)
         {
             Id = id;
         }

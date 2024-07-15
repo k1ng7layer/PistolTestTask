@@ -6,6 +6,7 @@ namespace Settings.Weapon
     {
         [Header("Shoot settings")]
         public int BulletsNumber;
+        public float BulletsDelay;
         public int AttackRadius;
         public float ShootDelay;
         

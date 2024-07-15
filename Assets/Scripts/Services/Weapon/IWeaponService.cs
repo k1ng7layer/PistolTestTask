@@ -1,7 +1,9 @@
-﻿namespace Services.Weapon
+﻿using Models.Entity;
+
+namespace Services.Weapon
 {
     public interface IWeaponService
     {
-        Models.Weapons.Weapon CurrentWeapon { get; }
+        WeaponEntity CurrentWeaponEntity { get; }
     }
 }

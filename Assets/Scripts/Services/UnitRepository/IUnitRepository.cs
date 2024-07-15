@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Models;
+using Models.Entity;
 
 namespace Services.UnitRepository
 {

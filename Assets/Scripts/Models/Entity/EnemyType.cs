@@ -1,4 +1,4 @@
-﻿namespace Models
+﻿namespace Models.Entity
 {
     public enum EnemyType
     {
