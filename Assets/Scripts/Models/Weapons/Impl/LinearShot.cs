@@ -1,24 +1,22 @@
 ﻿using Models.Entity;
+using Services.BulletPool;
 using Services.Coroutine;
 using Services.Spawn;
-using Settings.Weapon;
 using UnityEngine;
 
 namespace Models.Weapons.Impl
 {
-    public class PistolShot : WeaponShot
+    public class LinearShot : WeaponShot
     {
         private readonly ICoroutineDispatcher _coroutineDispatcher;
         private readonly ISpawnService _spawnService;
 
-        public PistolShot(
-            WeaponSettings weaponSettings, 
-            ICoroutineDispatcher coroutineDispatcher, 
-            ISpawnService spawnService
-        ) : base(weaponSettings)
+        public LinearShot(
+            IBulletService bulletService, 
+            ICoroutineDispatcher coroutineDispatcher
+        ) : base(bulletService, coroutineDispatcher)
         {
             _coroutineDispatcher = coroutineDispatcher;
-            _spawnService = spawnService;
         }
 
         public override void Shot(GameEntity shooter, Vector3 direction)
@@ -35,12 +33,7 @@ namespace Models.Weapons.Impl
 
         private void SpawnBullet(Vector3 position, Vector3 direction)
         {
-            var bulletView = _spawnService.Spawn("Bullet", position);
-            var bullet = new Bullet();
-            var rotation = Quaternion.LookRotation(direction);
-            bullet.SetRotation(rotation);
-            
-            bulletView.Link(bullet);
+            BulletService.SpawnBullet(position, direction);
         }
     }
 }

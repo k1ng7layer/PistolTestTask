@@ -1,9 +1,14 @@
+using Helpers.SerializableType;
+using Models.Weapons;
 using UnityEngine;
 
 namespace Settings.Weapon
 {
     public class WeaponSettings : ScriptableObject
     {
+        [TypeFilter(typeof(WeaponShot))]
+        public SerializableType Handler;
+        
         [Header("Shoot settings")]
         public int BulletsNumber;
         public float BulletsDelay;

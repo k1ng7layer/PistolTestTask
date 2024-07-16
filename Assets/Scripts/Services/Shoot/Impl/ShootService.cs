@@ -1,10 +1,8 @@
-﻿using Models;
-using Models.Entity;
-using Services.PlayerProvider;
-using Services.Spawn;
+﻿using Services.PlayerProvider;
 using Services.Target;
 using Services.Weapon;
 using Settings.Weapon;
+using ShotProvider;
 
 namespace Services.Shoot.Impl
 {
@@ -14,21 +12,21 @@ namespace Services.Shoot.Impl
         private readonly ITargetSelectService _targetSelectService;
         private readonly IPlayerProvider _playerProvider;
         private readonly IWeaponSettingsBase _weaponSettingsBase;
-        private readonly ISpawnService _spawnService;
+        private readonly IShotPool _shotPool;
 
         public ShootService(
             IWeaponService weaponService, 
             ITargetSelectService targetSelectService,
             IPlayerProvider playerProvider,
             IWeaponSettingsBase weaponSettingsBase,
-            ISpawnService spawnService
+            IShotPool shotPool
         )
         {
             _weaponService = weaponService;
             _targetSelectService = targetSelectService;
             _playerProvider = playerProvider;
             _weaponSettingsBase = weaponSettingsBase;
-            _spawnService = spawnService;
+            _shotPool = shotPool;
         }
         
         public void Shoot()
@@ -42,14 +40,10 @@ namespace Services.Shoot.Impl
             var dir = target.Position - playerPos;
             var weaponId = _weaponService.CurrentWeaponEntity.Id;
             var weaponSettings = _weaponSettingsBase.GetWeaponById(weaponId);
-
-            for (int i = 0; i < weaponSettings.BulletsNumber; i++)
-            {
-                var bullet = new Bullet();
-                var bulletView = _spawnService.Spawn(weaponSettings.BulletPrefab, playerPos);
-                bulletView.Link(bullet);
-            }
             
+            var weaponShot = _shotPool.Get(weaponSettings.Handler.Type);
+            weaponShot.Setup(weaponSettings);
+            weaponShot.Shot(_playerProvider.Player, dir);
         }
     }
 }
