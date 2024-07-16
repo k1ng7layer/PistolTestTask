@@ -10,7 +10,8 @@ namespace Services.BulletPool.Impl
     {
         private readonly ObjectPool<IEntityView> _bulletViewPool;
         private readonly ObjectPool<Bullet> _bulletPool;
-        private readonly List<Bullet> _activeBullets = new();
+        private readonly HashSet<Bullet> _activeBullets = new();
+        private readonly List<Bullet> _inactiveBullets = new();
 
         public BulletService(
             ObjectPool<IEntityView> bulletViewPool, 
@@ -21,7 +22,7 @@ namespace Services.BulletPool.Impl
             _bulletPool = bulletPool;
         }
 
-        public IReadOnlyList<Bullet> ActiveBullets => _activeBullets;
+        public HashSet<Bullet> ActiveBullets => _activeBullets;
         
         public Bullet SpawnBullet(Vector3 position, Vector3 direction)
         {
@@ -34,14 +35,24 @@ namespace Services.BulletPool.Impl
             bullet.SetRotation(rotation);
 
             _activeBullets.Add(bullet);
+            bullet.Deactivated += OnDeactivated;
             
             return bullet;
         }
 
-        public void DespawnBullet(Bullet bullet)
+        public void CleanupBullets()
         {
-            _bulletPool.Despawn(bullet);
-            
+            foreach (var bullet in _inactiveBullets)
+            {
+                _activeBullets.Remove(bullet);
+                _bulletPool.Despawn(bullet);
+            }
+        }
+
+        private void OnDeactivated(Bullet bullet)
+        {
+            bullet.Deactivated -= OnDeactivated;
+            _inactiveBullets.Add(bullet);
         }
     }
 }

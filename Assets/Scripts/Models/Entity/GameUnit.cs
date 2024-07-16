@@ -10,5 +10,13 @@ namespace Models.Entity
         {
             Damaged?.Invoke();
         }
+        
+        public void OnBulletImpact(Bullet bullet)
+        {
+            if (!bullet.TargetGroup.HasFlag(UnitGroup))
+                return;
+            
+            Damaged?.Invoke();
+        }
     }
 }

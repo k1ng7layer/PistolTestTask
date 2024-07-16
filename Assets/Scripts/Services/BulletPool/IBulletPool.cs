@@ -6,8 +6,8 @@ namespace Services.BulletPool
 {
     public interface IBulletService
     {
-        IReadOnlyList<Bullet> ActiveBullets { get; }
+        HashSet<Bullet> ActiveBullets { get; }
         Bullet SpawnBullet(Vector3 position, Vector3 direction);
-        public void DespawnBullet(Bullet bullet);
+        void CleanupBullets();
     }
 }

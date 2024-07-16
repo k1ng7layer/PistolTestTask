@@ -42,5 +42,13 @@ namespace Views.Units
         
         protected virtual void OnDamaged()
         { }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            // if (LayerMask.GetMask("Bullet") == (LayerMask.GetMask("Bullet") | (1 << other.gameObject.layer)))
+            // {
+            //     _entity.OnBulletImpact();
+            // }
+        }
     }
 }
