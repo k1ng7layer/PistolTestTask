@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Settings.Prefab.Impl
 {
+    [CreateAssetMenu(menuName = "Settings/PrefabBase", fileName = "PrefabBase")]
     public class PrefabBase : ScriptableObject, IPrefabBase
     {
         [SerializeField] private PrefabSettings[] _settings;

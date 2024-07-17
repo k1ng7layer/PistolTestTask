@@ -7,7 +7,7 @@ namespace Settings.Weapon.Impl
     public class WeaponSettingsBase : ScriptableObject, 
         IWeaponSettingsBase
     {
-        private List<WeaponSettings> _weaponSettings;
+        [SerializeField] private List<WeaponSettings> _weaponSettings;
 
         public IReadOnlyList<WeaponSettings> WeaponSettings => _weaponSettings;
         

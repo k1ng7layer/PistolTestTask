@@ -17,6 +17,11 @@ namespace Models.Entity
             Direction = direction;
         }
 
+        public void SetSpeed(float speed)
+        {
+            Speed = speed;
+        }
+
         public void SetActive(bool value)
         {
             Active = value;

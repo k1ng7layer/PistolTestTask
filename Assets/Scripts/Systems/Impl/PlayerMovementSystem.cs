@@ -36,7 +36,7 @@ namespace Systems.Impl
             if (_inputService.Input.sqrMagnitude <= 0 || _playerProvider.Player == null)
                 return;
             
-            var dir = new Vector3(input.x, 0f, input.z).normalized;
+            var dir = new Vector3(input.x, input.z, 0f).normalized;
             var position = player.Position + dir * _playerSettings.Speed * _timeProvider.DeltaTime;
             
             player.SetPosition(position);

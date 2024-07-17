@@ -26,6 +26,7 @@ namespace Systems.Impl
                 
                 var direction = bullet.Rotation * Vector3.up;
                 var position = bullet.Position + direction * bullet.Speed * _timeProvider.DeltaTime;
+                position.z = bullet.Position.z;
                 bullet.SetPosition(position);
             }
         }

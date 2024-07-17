@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Models.Weapons;
+using Services.BulletPool;
 using Services.Coroutine;
 using Settings.ShotInstaller.Impl;
 using Settings.Weapon;
@@ -12,18 +13,22 @@ namespace ShotProvider.Impl
         private readonly GameWeaponShotInstaller _shotInstaller;
         private readonly ICoroutineDispatcher _coroutineDispatcher;
         private readonly IWeaponSettingsBase _weaponSettingsBase;
+        private readonly IBulletService _bulletService;
         private readonly Dictionary<Type, Queue<WeaponShot>> _pool = new();
 
         public ShotPool(
             GameWeaponShotInstaller shotInstaller, 
             ICoroutineDispatcher coroutineDispatcher,
-            IWeaponSettingsBase weaponSettingsBase)
+            IWeaponSettingsBase weaponSettingsBase,
+            IBulletService bulletService)
         {
             _shotInstaller = shotInstaller;
             _coroutineDispatcher = coroutineDispatcher;
             _weaponSettingsBase = weaponSettingsBase;
+            _bulletService = bulletService;
 
-            foreach (var type in shotInstaller.ShotTypes)
+            var shots = shotInstaller.GetShots();
+            foreach (var type in shots)
             {
                 Fill(type);
             }
@@ -64,7 +69,7 @@ namespace ShotProvider.Impl
         private WeaponShot CreateInstance(Type type)
         {
             var instance = (WeaponShot)Activator.CreateInstance(type, 
-                new object[]{_coroutineDispatcher});
+                new object[]{_bulletService, _coroutineDispatcher});
             return instance;
         }
     }

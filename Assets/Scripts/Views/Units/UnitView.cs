@@ -6,26 +6,26 @@ namespace Views.Units
 {
     public class UnitView : MonoBehaviour, IEntityView
     {
-        private GameUnit _entity;
+        private GameEntity _entity;
 
         public event Action Despawned;
 
         public virtual void Link(GameEntity entity)
         {
-            _entity = (GameUnit)entity;
+            _entity = entity;
             
             _entity.PositionChanged += SetPosition;
             _entity.RotationChanged += SetRotation;
-            _entity.UnitDead += OnDead;
-            _entity.Damaged += OnDamaged;
+            // _entity.UnitDead += OnDead;
+            // _entity.Damaged += OnDamaged;
         }
         
         private void OnDead()
         {
             _entity.PositionChanged -= SetPosition;
             _entity.RotationChanged -= SetRotation;
-            _entity.UnitDead -= OnDead;
-            _entity.Damaged -= OnDamaged;
+            // _entity.UnitDead -= OnDead;
+            // _entity.Damaged -= OnDamaged;
             
             Destroy(gameObject);
         }

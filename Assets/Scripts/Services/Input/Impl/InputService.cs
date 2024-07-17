@@ -6,6 +6,7 @@ namespace Services.Input.Impl
     {
         public void SetInput(Vector3 input)
         {
+            Debug.Log($"SetInput {input}");
             Input = input;
         }
 

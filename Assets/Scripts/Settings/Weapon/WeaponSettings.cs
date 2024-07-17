@@ -19,7 +19,6 @@ namespace Settings.Weapon
         
         [Space]
         [Header("Prefab settings")]
-        public string WeaponPrefab;
         public string BulletPrefab;
     }
 }

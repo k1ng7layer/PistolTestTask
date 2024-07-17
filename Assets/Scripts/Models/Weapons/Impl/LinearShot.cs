@@ -21,19 +21,20 @@ namespace Models.Weapons.Impl
 
         public override void Shot(GameEntity shooter, Vector3 direction)
         {
-            for (int i = 0; i < WeaponSettings.BulletsDelay; i++)
+            for (int i = 0; i < WeaponSettings.BulletsNumber; i++)
             {
                 _coroutineDispatcher.Delay(WeaponSettings.BulletsDelay,
                     () =>
                     {
-                        SpawnBullet(shooter.Position, direction);
+                        SpawnBullet(shooter.Position, direction, 4f);
                     });
             }
         }
 
-        private void SpawnBullet(Vector3 position, Vector3 direction)
+        private void SpawnBullet(Vector3 position, Vector3 direction, float speed)
         {
-            BulletService.SpawnBullet(position, direction);
+            var bullet = BulletService.SpawnBullet(position, direction);
+            bullet.SetSpeed(speed);
         }
     }
 }

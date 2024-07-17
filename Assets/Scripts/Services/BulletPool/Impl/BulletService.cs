@@ -30,9 +30,10 @@ namespace Services.BulletPool.Impl
             var bullet = _bulletPool.Spawn();
             bulletView.Link(bullet);
             
-            var rotation = Quaternion.LookRotation(direction);
+            var rotation = Quaternion.LookRotation(direction, Vector3.forward);
             bullet.SetPosition(position);
-            bullet.SetRotation(rotation);
+            //bullet.SetRotation(rotation);
+            bullet.SetActive(true);
 
             _activeBullets.Add(bullet);
             bullet.Deactivated += OnDeactivated;

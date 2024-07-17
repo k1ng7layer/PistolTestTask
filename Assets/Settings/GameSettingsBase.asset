@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f39519ee38fc4ee8865c37ef2f5d1d99, type: 3}
+  m_Name: GameSettingsBase
+  m_EditorClassIdentifier: 
+  _playerSettings: {fileID: 11400000, guid: 2ffdf800c4fec3e419c69797767dea60, type: 2}
+  _weaponSettingsBase: {fileID: 11400000, guid: 58fb3dd9a4095164eb985855cd1895b3, type: 2}
+  _targetSelectionSettings: {fileID: 11400000, guid: 463b9c2e4ac320644a84bcd73340e72c, type: 2}
+  _prefabBase: {fileID: 11400000, guid: 4c0121b7eb50cc44da64e7aa0acee29c, type: 2}
