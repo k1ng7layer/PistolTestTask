@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Settings.TargetSelection.Impl
 {
+    [CreateAssetMenu(menuName = "Settings/TargetSelectionSettings", fileName = "TargetSelectionSettings")]
     public class TargetSelectionSettings : ScriptableObject, 
         ITargetSelectionSettings
     {

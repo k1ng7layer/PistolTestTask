@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Models.Entity;
 
 namespace Services.Weapon
@@ -6,8 +7,8 @@ namespace Services.Weapon
     public interface IWeaponService
     {
         WeaponEntity CurrentWeaponEntity { get; }
-        WeaponEntity[] AvailableWeapons { get; }
+        IReadOnlyList<WeaponEntity> EquippedWeapons { get; }
         event Action WeaponChanged;
-        void SetWeapon(WeaponEntity weaponEntity);
+        void SelectWeapon(int id);
     }
 }

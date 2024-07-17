@@ -1,11 +1,14 @@
 ﻿using Settings.Weapon;
 using UnityEngine;
 
-namespace Settings
+namespace Settings.Player.Impl
 {
-    public class PlayerSettings : ScriptableObject
+    [CreateAssetMenu(menuName = "Settings/PlayerSettings", fileName = "PlayerSettings")]
+    public class PlayerSettings : ScriptableObject, IPlayerSettings
     {
         [SerializeField] private float _speed;
+        [Space]
+        [Header("Weapons")]
         [SerializeField] private WeaponSettings[] _weapons;
 
         public float Speed => _speed;

@@ -1,9 +1,11 @@
 using Helpers.SerializableType;
 using Models.Weapons;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Settings.Weapon
 {
+    [CreateAssetMenu(menuName = "Settings/WeaponSettings", fileName = "WeaponSettings")]
     public class WeaponSettings : ScriptableObject
     {
         [TypeFilter(typeof(WeaponShot))]
@@ -12,7 +14,7 @@ namespace Settings.Weapon
         [Header("Shoot settings")]
         public int BulletsNumber;
         public float BulletsDelay;
-        public int AttackRadius;
+        public int ShootRadius;
         public float ShootDelay;
         
         [Space]

@@ -8,14 +8,30 @@ namespace UI.WeaponPanel
 {
     public class WeaponPanelView : UiView
     {
-        [SerializeField] private Button _weapon1;
-        [SerializeField] private Button _weapon2;
+        [SerializeField] private SelectWeaponButtonView[] _weaponSlots;
 
         public event Action<int> WeaponSelected;
 
-        public void Initialize(int weapon1Id, int weapon2Id)
+        public void InitializeWeaponSlot(
+            int weapon1Id, 
+            string weaponName, 
+            int slotId)
         {
-            
+            _weaponSlots[slotId].Init(weapon1Id, weaponName);
+            _weaponSlots[slotId].WeaponSelected += OnWeaponSelected;
+        }
+
+        private void OnWeaponSelected(int weaponId)
+        {
+            WeaponSelected?.Invoke(weaponId);
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var slot in _weaponSlots)
+            {
+                slot.WeaponSelected -= OnWeaponSelected;
+            }
         }
     }
 }

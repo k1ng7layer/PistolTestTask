@@ -2,6 +2,6 @@
 {
     public interface IGameService
     {
-        Game StartNewGame();
+        Core.Game StartNewGame();
     }
 }

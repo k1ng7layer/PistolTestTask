@@ -4,6 +4,8 @@ namespace Models.Entity
 {
     public class GameUnit : GameEntity
     {
+        public bool Dead { get; private set; }
+        public event Action UnitDead;
         public event Action Damaged;
         
         public void TakeDamage()
@@ -17,6 +19,12 @@ namespace Models.Entity
                 return;
             
             Damaged?.Invoke();
+        }
+        
+        public void SetDead(bool value)
+        {
+            Dead = value;
+            UnitDead?.Invoke();
         }
     }
 }

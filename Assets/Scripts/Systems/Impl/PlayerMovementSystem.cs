@@ -2,6 +2,8 @@
 using Services.PlayerProvider;
 using Services.TimeProvider;
 using Settings;
+using Settings.Player;
+using Settings.Player.Impl;
 using UnityEngine;
 
 namespace Systems.Impl
@@ -11,13 +13,13 @@ namespace Systems.Impl
         private readonly IPlayerProvider _playerProvider;
         private readonly IInputService _inputService;
         private readonly ITimeProvider _timeProvider;
-        private readonly PlayerSettings _playerSettings;
+        private readonly IPlayerSettings _playerSettings;
 
         public PlayerMovementSystem(
             IPlayerProvider playerProvider, 
             IInputService inputService,
             ITimeProvider timeProvider,
-            PlayerSettings playerSettings
+            IPlayerSettings playerSettings
         )
         {
             _playerProvider = playerProvider;

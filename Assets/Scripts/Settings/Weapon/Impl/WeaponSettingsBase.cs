@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Settings.Weapon.Impl
 {
+    [CreateAssetMenu(menuName = "Settings/WeaponSettingsBase", fileName = "WeaponSettingsBase")]
     public class WeaponSettingsBase : ScriptableObject, 
         IWeaponSettingsBase
     {
