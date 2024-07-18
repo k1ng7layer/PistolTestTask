@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ac8d421a5340d6a5b71ec4130cdcae, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  _speed: 3
+  _speed: 4
   _weapons:
   - {fileID: 11400000, guid: 149d16ad10630824b899c3187856ef38, type: 2}
+  - {fileID: 11400000, guid: f0093bada221d83479154dbd132a4c8d, type: 2}

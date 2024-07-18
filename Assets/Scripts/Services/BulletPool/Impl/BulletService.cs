@@ -51,12 +51,13 @@ namespace Services.BulletPool.Impl
         {
             foreach (var bullet in _inactiveBullets)
             {
-                // var view = _bulletViewsMap[bullet.TransformHash];
-                // _activeBullets.Remove(bullet);
-                // _bulletPool.Despawn(bullet);
-                // _bulletViewsMap.Remove(bullet.TransformHash);
-                // _bulletsMap.Remove(bullet.TransformHash);
-                // _bulletViewPool.Despawn(view);
+                var view = _bulletViewsMap[bullet.TransformHash];
+                _activeBullets.Remove(bullet);
+                _bulletPool.Despawn(bullet);
+                _bulletViewsMap.Remove(bullet.TransformHash);
+                _bulletsMap.Remove(bullet.TransformHash);
+                _bulletViewPool.Despawn(view);
+                view.Unlink();
             }
             
             _inactiveBullets.Clear();
@@ -69,8 +70,6 @@ namespace Services.BulletPool.Impl
 
         public bool TryGetBullet(int transformHash, out Bullet bullet)
         {
-            var hasBullet =  _bulletsMap.TryGetValue(transformHash, out bullet);
-            
             return _bulletsMap.TryGetValue(transformHash, out bullet);
         }
 
@@ -82,6 +81,7 @@ namespace Services.BulletPool.Impl
             _bulletViewsMap.Remove(bullet.TransformHash);
             _bulletsMap.Remove(bullet.TransformHash);
             _bulletViewPool.Despawn(view);
+            view.Unlink();
         }
 
         private void OnDeactivated(Bullet entity, bool value)
@@ -89,11 +89,11 @@ namespace Services.BulletPool.Impl
             if (value)
                 return;
 
-            // if (!_activeBullets.Contains(entity))
-            //     return;
-            //
-            // _activeBullets.Remove(entity);
-            // _inactiveBullets.Add(entity);
+            if (!_activeBullets.Contains(entity))
+                return;
+            
+            _activeBullets.Remove(entity);
+            _inactiveBullets.Add(entity);
         }
     }
 }

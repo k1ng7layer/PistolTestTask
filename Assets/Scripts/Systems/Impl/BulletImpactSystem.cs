@@ -47,8 +47,7 @@ namespace Systems.Impl
             
             unit.TakeDamage();
             
-            //bullet.SetActive(false);
-            _bulletService.DespawnBullet(bullet);
+            bullet.SetActive(false);
         }
     }
 }

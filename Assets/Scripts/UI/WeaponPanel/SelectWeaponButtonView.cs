@@ -13,6 +13,7 @@ namespace UI.WeaponPanel
         private int _weaponId;
 
         public event Action<int> WeaponSelected;
+        public int WeaponId => _weaponId;
 
         private void Awake()
         {
@@ -23,6 +24,11 @@ namespace UI.WeaponPanel
         {
             _weaponId = weaponId;
             _name.text = $"{weaponName}";
+        }
+
+        public void SetInteractable(bool value)
+        {
+            _button.interactable = value;
         }
 
         private void Select()

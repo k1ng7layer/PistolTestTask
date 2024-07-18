@@ -8,5 +8,6 @@ namespace Services.Coroutine
         void RunCoroutine(IEnumerator enumerator, Action onComplete);
         void RunCoroutine(IEnumerator enumerator);
         void Delay(float time, Action onComplete);
+        void InvokeRepeatedly(Action action, float delay, int nums);
     }
 }

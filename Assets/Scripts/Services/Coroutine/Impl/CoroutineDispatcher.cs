@@ -23,7 +23,22 @@ namespace Services.Coroutine.Impl
             StartCoroutine(CreateCoroutine(delay, onComplete));
         }
 
-        IEnumerator CreateCoroutine(IEnumerator coroutine, Action action)
+        public void InvokeRepeatedly(Action action, float delay, int nums)
+        {
+            StartCoroutine(Run(action, delay, nums));
+        }
+
+        private IEnumerator Run(Action action, float delay, int nums)
+        {
+            for (int i = 0; i < nums; i++)
+            {
+                yield return Delay(delay);
+
+                action();
+            }
+        }
+
+        private IEnumerator CreateCoroutine(IEnumerator coroutine, Action action)
         {
             yield return coroutine;
 

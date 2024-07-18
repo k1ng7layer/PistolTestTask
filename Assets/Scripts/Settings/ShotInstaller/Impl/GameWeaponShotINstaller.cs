@@ -7,6 +7,7 @@ namespace Settings.ShotInstaller.Impl
         protected override void Configure()
         {
             RegisterShot<LinearShot>();
+            RegisterShot<ShotgunShot>();
         }
     }
 }

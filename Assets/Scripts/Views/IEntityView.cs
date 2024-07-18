@@ -7,6 +7,7 @@ namespace Views
     {
         int TransformHash { get; }
         void Link(GameEntity entity);
+        void Unlink();
         void SetPosition(Vector3 value);
     }
 }

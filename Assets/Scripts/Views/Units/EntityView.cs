@@ -26,7 +26,16 @@ namespace Views.Units
             _entity.Destroyed += OnEntityDestroy;
             _entity.Destroyed += OnEntityDestroy;
         }
-        
+
+        public virtual void Unlink()
+        {
+            _entity.PositionChanged -= SetPosition;
+            _entity.RotationChanged -= SetRotation;
+            _entity.Destroyed -= OnEntityDestroy;
+            _entity.Destroyed -= OnEntityDestroy;
+            _entity = null;
+        }
+
         private void OnEntityDestroy(bool value)
         {
             _entity.PositionChanged -= SetPosition;

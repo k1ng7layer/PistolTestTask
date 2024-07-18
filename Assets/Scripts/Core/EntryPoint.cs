@@ -21,6 +21,7 @@ using Services.Weapon.Impl;
 using Settings;
 using Settings.Player;
 using Settings.ShotInstaller.Impl;
+using Settings.Weapon;
 using ShotProvider.Impl;
 using Systems;
 using Systems.Impl;
@@ -84,10 +85,14 @@ namespace Core
                 unitRepository,
                 spawnService);
 
-            _uiManager = InitializeUI(input, shootService, weaponService);
-            _uiManager.Initialize();
-            _game = new Game(systems);
+            _uiManager = InitializeUI(input, 
+                shootService, 
+                weaponService, 
+                _gameSettingsBase.WeaponSettingsBase);
             
+            _uiManager.Initialize();
+            
+            _game = new Game(systems);
             _game.Start();
         }
 
@@ -127,14 +132,15 @@ namespace Core
         private UiManager InitializeUI(
             IInputService inputService, 
             IShootService shootService, 
-            IWeaponService weaponService
+            IWeaponService weaponService,
+            IWeaponSettingsBase weaponSettingsBase
         )
         {
             var gameHudWindow = new GameHudWindow();
             var windows = new List<IUiWindow>() { gameHudWindow };
             var movementInputController = new MovementInputController(_movementInputView, inputService);
             var shootController = new ShootController(_shootButtonView, shootService);
-            var weaponPanelController = new WeaponPanelController(_weaponPanelView, weaponService);
+            var weaponPanelController = new WeaponPanelController(_weaponPanelView, weaponService, weaponSettingsBase);
             var controllers = new List<IUiController>()
                 { movementInputController, shootController, weaponPanelController };
             
