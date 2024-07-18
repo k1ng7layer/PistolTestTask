@@ -1,5 +1,4 @@
 ﻿using System;
-using Services.Pool;
 using UnityEngine;
 
 namespace Models.Entity
@@ -8,10 +7,11 @@ namespace Models.Entity
     {
         public Vector3 Direction { get; private set; }
         public float Speed { get; private set; }
-        public bool Active { get; private set; }
         public UnitGroup TargetGroup { get; private set; }
-        public event Action<Bullet> Deactivated; 
-
+        public bool Active { get; private set; }
+        public event Action<Bullet, bool> ActiveChanged;
+        public int TransformHash { get; private set; }
+        
         public void SetDirection(Vector3 direction)
         {
             Direction = direction;
@@ -25,9 +25,12 @@ namespace Models.Entity
         public void SetActive(bool value)
         {
             Active = value;
-            
-            if (!value && Active)
-                Deactivated?.Invoke(this);
+            ActiveChanged?.Invoke(this, value);
+        }
+
+        public void SetTransformHash(int value)
+        {
+            TransformHash = value;
         }
         
     }

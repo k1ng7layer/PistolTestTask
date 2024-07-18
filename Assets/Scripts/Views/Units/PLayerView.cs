@@ -1,6 +1,6 @@
 ﻿namespace Views.Units
 {
-    public class PLayerView : UnitView
+    public class PLayerView : EntityView
     {
         
     }

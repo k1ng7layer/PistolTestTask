@@ -32,12 +32,16 @@ namespace Services.Pool.Impl
                 return _pool.Dequeue();
 
             Init();
-
-            return _pool.Dequeue();
+            var instance = _pool.Dequeue();
+            
+            OnSpawn(instance);
+            
+            return instance;
         }
 
         public void Despawn(T instance)
         {
+            OnDespawn(instance);
             _pool.Enqueue(instance);
         }
 

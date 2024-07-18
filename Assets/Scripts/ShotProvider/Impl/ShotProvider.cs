@@ -30,22 +30,21 @@ namespace ShotProvider.Impl
             var shots = shotInstaller.GetShots();
             foreach (var type in shots)
             {
-                Fill(type);
+                if (!_pool.ContainsKey(type))
+                    Fill(type);
             }
         }
 
         private void Fill(Type type)
         {
-            if (!_pool.TryGetValue(type, out _))
-            {
-                var queue = new Queue<WeaponShot>();
+            if (!_pool.ContainsKey(type))
+                _pool.Add(type, new Queue<WeaponShot>());
 
-                for (int i = 0; i < 20; i++)
-                {
-                    queue.Enqueue(CreateInstance(type));
-                }
-                    
-                _pool.Add(type, queue);
+            var queue = _pool[type];
+
+            for (int i = 0; i < 20; i++)
+            {
+                queue.Enqueue(CreateInstance(type));
             }
         }
         

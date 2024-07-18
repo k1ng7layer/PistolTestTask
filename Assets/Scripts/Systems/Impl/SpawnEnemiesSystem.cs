@@ -3,25 +3,26 @@ using Services.Spawn;
 using Services.UnitRepository;
 using Views.Level;
 
-namespace Services.EnemySpawn.Impl
+namespace Systems.Impl
 {
-    public class EnemySpawnService : IEnemySpawnService
+    public class SpawnEnemiesSystem : IInitializeSystem
     {
         private readonly LevelView _levelView;
         private readonly ISpawnService _spawnService;
         private readonly IUnitRepository _unitRepository;
 
-        public EnemySpawnService(
+        public SpawnEnemiesSystem(
             LevelView levelView, 
-            ISpawnService spawnService,
-            IUnitRepository unitRepository)
+            ISpawnService spawnService, 
+            IUnitRepository unitRepository
+        )
         {
             _levelView = levelView;
             _spawnService = spawnService;
             _unitRepository = unitRepository;
         }
         
-        public void SpawnEnemies()
+        public void Initialize()
         {
             foreach (var enemySpawnSetting in _levelView.EnemySpawnSettings)
             {

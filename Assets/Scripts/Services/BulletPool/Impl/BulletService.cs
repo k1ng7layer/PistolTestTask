@@ -12,6 +12,10 @@ namespace Services.BulletPool.Impl
         private readonly ObjectPool<Bullet> _bulletPool;
         private readonly HashSet<Bullet> _activeBullets = new();
         private readonly List<Bullet> _inactiveBullets = new();
+        private readonly Dictionary<int, IEntityView> _bulletViewsMap = new();
+        private readonly Dictionary<int, Bullet> _bulletsMap = new();
+
+        private int _step;
 
         public BulletService(
             ObjectPool<IEntityView> bulletViewPool, 
@@ -29,14 +33,16 @@ namespace Services.BulletPool.Impl
             var bulletView = _bulletViewPool.Spawn();
             var bullet = _bulletPool.Spawn();
             bulletView.Link(bullet);
-            
-            var rotation = Quaternion.LookRotation(direction, Vector3.forward);
+            _bulletViewsMap.Add(bulletView.TransformHash, bulletView);
+            _bulletsMap.Add(bulletView.TransformHash, bullet);
+            var rot= Quaternion.identity * Quaternion.FromToRotation(Vector3.up, direction);
             bullet.SetPosition(position);
-            //bullet.SetRotation(rotation);
+            bullet.SetRotation(rot);
             bullet.SetActive(true);
+            bullet.SetTransformHash(bulletView.TransformHash);
 
             _activeBullets.Add(bullet);
-            bullet.Deactivated += OnDeactivated;
+            bullet.ActiveChanged += OnDeactivated;
             
             return bullet;
         }
@@ -45,15 +51,49 @@ namespace Services.BulletPool.Impl
         {
             foreach (var bullet in _inactiveBullets)
             {
-                _activeBullets.Remove(bullet);
-                _bulletPool.Despawn(bullet);
+                // var view = _bulletViewsMap[bullet.TransformHash];
+                // _activeBullets.Remove(bullet);
+                // _bulletPool.Despawn(bullet);
+                // _bulletViewsMap.Remove(bullet.TransformHash);
+                // _bulletsMap.Remove(bullet.TransformHash);
+                // _bulletViewPool.Despawn(view);
             }
+            
+            _inactiveBullets.Clear();
         }
 
-        private void OnDeactivated(Bullet bullet)
+        public IEntityView GetBulletView(int transformHash)
         {
-            bullet.Deactivated -= OnDeactivated;
-            _inactiveBullets.Add(bullet);
+            return _bulletViewsMap[transformHash];
+        }
+
+        public bool TryGetBullet(int transformHash, out Bullet bullet)
+        {
+            var hasBullet =  _bulletsMap.TryGetValue(transformHash, out bullet);
+            
+            return _bulletsMap.TryGetValue(transformHash, out bullet);
+        }
+
+        public void DespawnBullet(Bullet bullet)
+        {
+            var view = _bulletViewsMap[bullet.TransformHash];
+            _activeBullets.Remove(bullet);
+            _bulletPool.Despawn(bullet);
+            _bulletViewsMap.Remove(bullet.TransformHash);
+            _bulletsMap.Remove(bullet.TransformHash);
+            _bulletViewPool.Despawn(view);
+        }
+
+        private void OnDeactivated(Bullet entity, bool value)
+        {
+            if (value)
+                return;
+
+            // if (!_activeBullets.Contains(entity))
+            //     return;
+            //
+            // _activeBullets.Remove(entity);
+            // _inactiveBullets.Add(entity);
         }
     }
 }

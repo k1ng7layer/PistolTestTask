@@ -2,7 +2,7 @@
 
 namespace Views
 {
-    public class BulletView : UnitView
+    public class BulletView : EntityView
     {
         
     }

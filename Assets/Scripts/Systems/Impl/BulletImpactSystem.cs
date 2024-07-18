@@ -4,7 +4,7 @@ using Services.UnitRepository;
 
 namespace Systems.Impl
 {
-    public class BulletImpactSystem : IUpdateSystem
+    public class BulletImpactSystem : IInitializeSystem
     {
         private readonly IUnitRepository _unitRepository;
         private readonly IBulletService _bulletService;
@@ -17,36 +17,38 @@ namespace Systems.Impl
             _unitRepository = unitRepository;
             _bulletService = bulletService;
         }
+
+        public void Initialize()
+        {
+            _unitRepository.Added += OnEntityAdded;
+            _unitRepository.Removed += OnEntityRemoved;
+        }
+
+        private void OnEntityAdded(GameUnit entity)
+        {
+            entity.BulletImpact += OnBulletImpact;
+        }
         
-        public void Update()
+        private void OnEntityRemoved(GameUnit entity)
         {
-            foreach (var bullet in _bulletService.ActiveBullets)
-            {
-                if (!bullet.Active)
-                    continue;
-                
-                CheckDistanceToUnits(bullet);
-            }
+            entity.BulletImpact -= OnBulletImpact;
         }
 
-        private void CheckDistanceToUnits(Bullet bullet)
+        private void OnBulletImpact(int bulletHash, GameUnit unit)
         {
-            foreach (var entity in _unitRepository.Entities)
-            {
-                if (!bullet.TargetGroup.HasFlag(entity.UnitGroup))
-                    continue;
-                
-                var dist2 = (entity.Position - bullet.Position).sqrMagnitude;
-
-                if (dist2 <= 0.001f)
-                    Impact(entity, bullet);
-            }
-        }
-
-        private void Impact(GameUnit entity, Bullet bullet)
-        {
-            bullet.SetActive(false);
-            entity.TakeDamage();
+            if (!_bulletService.TryGetBullet(bulletHash, out var bullet))
+                return;
+            
+            if (!bullet.Active)
+                return;
+            
+            if (!bullet.TargetGroup.HasFlag(unit.UnitGroup))
+                return;
+            
+            unit.TakeDamage();
+            
+            //bullet.SetActive(false);
+            _bulletService.DespawnBullet(bullet);
         }
     }
 }

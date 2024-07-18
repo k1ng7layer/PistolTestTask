@@ -1,54 +1,41 @@
-using System;
 using Models.Entity;
 using UnityEngine;
 
 namespace Views.Units
 {
-    public class UnitView : MonoBehaviour, IEntityView
+    public class UnitView : EntityView
     {
-        private GameEntity _entity;
-
-        public event Action Despawned;
-
-        public virtual void Link(GameEntity entity)
+        private GameUnit _entity;
+        
+        public override void Link(GameEntity entity)
         {
-            _entity = entity;
+            base.Link(entity);
+            _entity = (GameUnit)entity;
             
-            _entity.PositionChanged += SetPosition;
-            _entity.RotationChanged += SetRotation;
-            // _entity.UnitDead += OnDead;
-            // _entity.Damaged += OnDamaged;
+            _entity.UnitDead += OnDead;
+            _entity.Damaged += OnDamaged;
         }
         
         private void OnDead()
         {
-            _entity.PositionChanged -= SetPosition;
-            _entity.RotationChanged -= SetRotation;
-            // _entity.UnitDead -= OnDead;
-            // _entity.Damaged -= OnDamaged;
-            
-            Destroy(gameObject);
-        }
-
-        public void SetPosition(Vector3 value)
-        {
-            transform.position = value;
-        }
-
-        private void SetRotation(Quaternion value)
-        {
-            transform.rotation = value;
+          
         }
         
         protected virtual void OnDamaged()
         { }
 
-        private void OnTriggerEnter(Collider other)
+        protected override void OnDestroyed()
         {
-            // if (LayerMask.GetMask("Bullet") == (LayerMask.GetMask("Bullet") | (1 << other.gameObject.layer)))
-            // {
-            //     _entity.OnBulletImpact();
-            // }
+            _entity.UnitDead -= OnDead;
+            _entity.Damaged -= OnDamaged;
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (LayerMask.GetMask("Bullet") == (LayerMask.GetMask("Bullet") | (1 << other.gameObject.layer)))
+            {
+                _entity.OnBulletImpact(other.transform.GetHashCode());
+            }
         }
     }
 }
